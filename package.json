@@ -1,0 +1,124 @@
+{
+	"name": "load-source",
+	"description": "A simple function for load js/image/css/style",
+	"version": "1.0.0",
+	"packageManager": "pnpm@8.5.1",
+	"main": "dist/load-source.cjs.js",
+	"module": "dist/load-source.esm-bundler.js",
+	"browser": "dist/load-source.esm-browser.js",
+	"unpkg": "dist/load-source.global.js",
+	"jsdelivr": "dist/load-source.global.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"module": "./dist/load-source.esm-bundler.js",
+			"require": "./dist/load-source.cjs.js",
+			"import": "./dist/load-source.mjs"
+		},
+		"./*": "./*"
+	},
+	"directories": {
+		"lib": "lib",
+		"dist": "dist",
+		"src": "src"
+	},
+	"files": [
+		"lib",
+		"dist",
+		"typings"
+	],
+	"scripts": {
+		"gen:version": "tscjs scripts/version",
+		"tag:version": "tscjs scripts/tag",
+		"build": "run-s clean build:{bundle,types} roll-types",
+		"build:bundle": "rollup -c build/rollup.config.ts --configPlugin @rollup/plugin-typescript",
+		"build:types": "tsc -p src/tsconfig.json",
+		"build:docs": "rm-all docs && typedoc && prettier --write \"**/*.md\"",
+		"deploy": "sh scripts/deploy.sh",
+		"roll-types": "api-extractor run && rm-all temp",
+		"watch": "pnpm build:bundle -w",
+		"pub": "tscjs scripts/publish",
+		"unpub": "tscjs scripts/unpublish",
+		"sync": "tscjs scripts/sync",
+		"workflow:publish-test": "zx scripts/workflow.mjs",
+		"clean": "rm-all dist es lib",
+		"dist": "run-s eslint prettier build",
+		"test-unit": "jest --filter ./scripts/filter-unit.js",
+		"eslint": "eslint --fix .",
+		"prettier": "prettier --write \"**/*.{js,ts,jsx,tsx,yml,json,md}\"",
+		"pub.bak": "git add . && git commit -m $npm_package_version && git pull && git push"
+	},
+	"dependencies": {
+		"mount-css": "^1.0.0",
+		"mount-image": "^1.0.0",
+		"mount-script": "^1.0.0",
+		"mount-style": "^1.0.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.21.8",
+		"@babel/preset-env": "^7.21.5",
+		"@babel/preset-typescript": "^7.21.5",
+		"@eslint-sets/eslint-config-ts": "^5.2.0",
+		"@microsoft/api-extractor": "^7.34.9",
+		"@rollup/plugin-babel": "^6.0.3",
+		"@rollup/plugin-commonjs": "^25.0.0",
+		"@rollup/plugin-node-resolve": "^15.0.2",
+		"@rollup/plugin-terser": "^0.4.3",
+		"@rollup/plugin-typescript": "^11.1.1",
+		"@types/babel__core": "^7.20.0",
+		"@types/node": "^20.2.0",
+		"core-js": "^3.30.2",
+		"cross-env": "^7.0.3",
+		"eslint": "^8.40.0",
+		"fast-glob": "^3.2.12",
+		"load-yml": "^1.3.0",
+		"npm-run-all": "^4.1.5",
+		"prettier": "^2.8.8",
+		"prettier-config-common": "^1.4.0",
+		"reinstaller": "^3.0.0",
+		"rm-all": "^1.0.0",
+		"rollup": "^3.22.0",
+		"rollup-plugin-filesize": "^10.0.0",
+		"rollup-plugin-visualizer": "^5.9.0",
+		"tsnd": "^1.1.0",
+		"typescript": "^5.0.4",
+		"zx": "^7.2.2"
+	},
+	"peerDependencies": {
+		"core-js": ">= 3"
+	},
+	"engines": {
+		"node": ">=12.20"
+	},
+	"pnpm": {
+		"peerDependencyRules": {
+			"ignoreMissing": [
+				"webpack"
+			],
+			"allowedVersions": {
+				"eslint": "^8.0.0"
+			}
+		}
+	},
+	"keywords": [
+		"load-source",
+		"load-javascript",
+		"load-script",
+		"load-js",
+		"load-image",
+		"load-style",
+		"load-css",
+		"saqqdy"
+	],
+	"license": "MIT",
+	"author": "saqqdy<https://github.com/saqqdy>",
+	"homepage": "https://github.com/saqqdy/load-source#readme",
+	"bugs": {
+		"url": "https://github.com/saqqdy/load-source/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/saqqdy/load-source.git"
+	}
+}

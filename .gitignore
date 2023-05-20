@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+dist/
+es/
+lib/
+docs/
+temp/
+yarn-error.log
+/test/unit/coverage/
+/test/e2e/reports/
+
+*.bak
+*_bak
+*.bak.*js
+stats.html
