@@ -32,14 +32,14 @@ export interface Options extends RollupOptions {
 const configs: Config[] = [
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.esm-browser.js',
+		file: 'dist/index.esm-browser.js',
 		format: 'es',
 		browser: true,
 		env: 'development'
 	},
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.esm-browser.prod.js',
+		file: 'dist/index.esm-browser.prod.js',
 		format: 'es',
 		browser: true,
 		minify: true,
@@ -47,32 +47,32 @@ const configs: Config[] = [
 	},
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.esm-bundler.js',
+		file: 'dist/index.esm-bundler.js',
 		format: 'es',
 		env: 'development'
 	},
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.mjs',
+		file: 'dist/index.mjs',
 		format: 'es',
 		env: 'development'
 	},
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.global.js',
+		file: 'dist/index.global.js',
 		format: 'iife',
 		env: 'development'
 	},
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.global.prod.js',
+		file: 'dist/index.global.prod.js',
 		format: 'iife',
 		minify: true,
 		env: 'production'
 	},
 	{
 		input: 'src/index.ts',
-		file: 'dist/load-source.cjs.js',
+		file: 'dist/index.cjs.js',
 		format: 'cjs',
 		env: 'development'
 	}
@@ -85,10 +85,6 @@ function createEntries() {
 function createEntry(config: Config) {
 	const isGlobalBuild = config.format === 'iife'
 	const isTypeScript = config.input.endsWith('.ts')
-	const isTranspiled =
-		config.file.endsWith('bundler.js') ||
-		config.file.endsWith('browser.js') ||
-		config.file.endsWith('prod.js')
 
 	const _config: Options = {
 		external: [],
@@ -122,14 +118,13 @@ function createEntry(config: Config) {
 	_config.plugins.push(nodeResolve(), commonjs())
 
 	if (config.transpile !== false) {
-		!isTranspiled &&
-			_config.plugins.push(
-				babel({
-					babelHelpers: 'bundled',
-					extensions,
-					exclude: [/node_modules[\\/]core-js/]
-				})
-			)
+		_config.plugins.push(
+			babel({
+				babelHelpers: 'bundled',
+				extensions,
+				exclude: [/node_modules[\\/]core-js/]
+			})
+		)
 		isTypeScript &&
 			_config.plugins.push(
 				typescript({
