@@ -17,6 +17,8 @@ A simple function for load js/image/css/style
 
 <div style="text-align: center; margin-bottom: 20px;" align="center">
 
+## This project has been moved to [https://github.com/saqqdy/browsers](https://github.com/saqqdy/browsers/tree/master/packages/load-source#readme)
+
 </div>
 
 ## Installing
